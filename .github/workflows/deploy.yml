@@ -1,0 +1,30 @@
+name: Deploy frontend 🎉
+
+on:
+  push:
+    paths:
+      - 'web/**'
+    branches: [ "main" ]
+  pull_request:
+    paths:
+      - 'web/**'
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+        cache: 'npm'
+    - name: Navigate to Web Folder and Build
+      working-directory: ./web
+      run: |
+        npm install
+        npm run build
