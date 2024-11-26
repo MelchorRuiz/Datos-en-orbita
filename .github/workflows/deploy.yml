@@ -1,4 +1,4 @@
-name: Deploy frontend
+name: Deploy frontend 🎉
 
 on:
   push:
@@ -10,6 +10,15 @@ on:
       - 'web/**'
     branches: [ "main" ]
   workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -34,8 +43,23 @@ jobs:
       working-directory: ./web
       run: |
         npm run build
+        
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
 
-    - name: Upload build artifacts (opcional)
-      if: success()
-      run: |
-        echo "Build successful 🎉"
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+
+    - name: Upload the build artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './web/dist'
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
