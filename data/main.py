@@ -1,6 +1,5 @@
 from capture_screenshots import from_x
-
-# Capture screenshots from a live stream on X
+from cut_images import process_images_in_folder
 
 broadcasts = [
   {
@@ -14,3 +13,4 @@ broadcasts = [
 for broadcast in broadcasts:
   if (broadcast['platform'] == 'x'):
     from_x(broadcast['url'], broadcast['output_folder'], broadcast['duration'])
+  process_images_in_folder(broadcast['output_folder'])
