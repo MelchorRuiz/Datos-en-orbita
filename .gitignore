@@ -1,3 +1,8 @@
-node_modules/
-.astro/
-dist/
+web/node_modules/
+web/.astro/
+web/dist/
+
+data/venv
+data/__pycache__/
+data/screenshots/
+data/chromedriver.exe
