@@ -31,7 +31,7 @@ def crop_image(filename, folder_path, output_folder, crop_coords):
   except Exception as e:
     print(f"Error cropping image {image_path}: {e}")
 
-def process_images_in_folder(files, folder_path,delete_originals=False):
+def crop_images_in_folder(files, folder_path,delete_originals=False):
   """
   Process all image files in a folder by cropping them based on the given coordinates.
 
