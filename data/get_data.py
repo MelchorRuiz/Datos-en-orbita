@@ -4,23 +4,21 @@ from io import BytesIO
 from time import sleep
 import os
 from datetime import datetime
+from cut_image import divide_image
 
-def from_x(live_url, output_folder, duration=10):
+def from_x(live_url, duration=10):
   """
   Capture screenshots from a live stream on X using Selenium.
 
   Args:
       live_url (str): URL of the live stream on X.
-      output_folder (str): Folder to save the screenshots.
       duration (int): Duration in minutes to capture screenshots.
   """
   options = webdriver.FirefoxOptions()
   options.add_argument("--headless")
   options.add_argument("--window-size=1920,1080")
-
-  os.makedirs(output_folder, exist_ok=True)
   
-  driver = webdriver.Firefox()
+  driver = webdriver.Firefox(options=options)
 
   try:
     driver.get(live_url)
@@ -30,7 +28,10 @@ def from_x(live_url, output_folder, duration=10):
       screensot = driver.get_screenshot_as_png()
       image = Image.open(BytesIO(screensot))
 
-      image.show()
+      cropped_images = divide_image(image)
+      time = datetime.now().strftime("%Y%m%d%H%M%S")
+      for part, cropped_image in cropped_images.items():
+        cropped_image.save(f"screenshots/{time}_{part}.png")
 
       sleep(1)
   except Exception as e:

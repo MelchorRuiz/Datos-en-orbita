@@ -19,4 +19,4 @@ def get_files(folder_path):
 for broadcast in broadcasts:
   folder_path = 'screenshots/' + broadcast['id']
   if (broadcast['platform'] == 'x'):
-    from_x(broadcast['url'], folder_path, broadcast['duration'])
+    from_x(broadcast['url'], broadcast['duration'])
