@@ -1,4 +1,6 @@
 from selenium import webdriver
+from PIL import Image
+from io import BytesIO
 from time import sleep
 import os
 from datetime import datetime
@@ -25,11 +27,11 @@ def from_x(live_url, output_folder, duration=10):
     sleep(5)
     
     for _ in range(duration*60):
-      timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-      screenshot_path = os.path.join(output_folder, f"screenshot_{timestamp}.png")
-      driver.save_screenshot(screenshot_path)
-      print(f"Screenshot saved: {screenshot_path}")
-      
+      screensot = driver.get_screenshot_as_png()
+      image = Image.open(BytesIO(screensot))
+
+      image.show()
+
       sleep(1)
   except Exception as e:
     print(f"An error occurred: {e}")
